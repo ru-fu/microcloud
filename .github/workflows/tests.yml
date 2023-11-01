@@ -1,8 +1,6 @@
 name: Tests
 on:
   push:
-    branches:
-      - main
   pull_request:
 
 concurrency:
@@ -59,7 +57,7 @@ jobs:
         run: make check-unit
 
   documentation-checks:
-    uses: canonical/documentation-workflows/.github/workflows/documentation-checks.yaml@main
+    uses: akcano/documentation-workflows/.github/workflows/documentation-checks.yaml@main
     with:
       working-directory: './doc'
 
