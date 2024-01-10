@@ -10,6 +10,7 @@ SOURCEDIR     = .
 BUILDDIR      = _build
 VENVDIR       = $(SPHINXDIR)/venv
 VENV          = $(VENVDIR)/bin/activate
+PA11Y         = $(SPHINXDIR)/node_modules/pa11y/bin/pa11y.js
 
 
 # Put it first so that "make" without argument is like "make help".
@@ -120,6 +121,15 @@ woke: woke-install
 
 .PHONY: woke
 
+pa11y-install:
+	@type $(PA11Y) >/dev/null 2>&1 || { \
+			echo "Installing \"pa11y\" from npm... \n"; \
+			mkdir -p $(SPHINXDIR)/node_modules/ ; \
+			npm install --prefix $(SPHINXDIR) pa11y; \
+		}
+
+pa11y: pa11y-install html
+	find $(BUILDDIR) -name *.html -print0 | xargs -n 1 -0 $(PA11Y)
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

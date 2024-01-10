@@ -17,9 +17,12 @@ This tutorial guides you through installing MicroCloud in a confined environment
 It uses virtual machines in LXD, so you don't need any extra hardware to follow the tutorial.
 
 .. tip::
-   In this tutorial, we'll use four virtual machines in LXD for the MicroCloud cluster members.
-
+   In this tutorial, we use four virtual machines in LXD for the MicroCloud cluster members.
    You can use a different number of machines if you want, but the minimum number of required machines is three.
+
+   We limit each virtual machine to 2 GiB of RAM, which is less than the recommended hardware requirements.
+   In the context of the tutorial, this amount of RAM is sufficient.
+   However, in a production environment, make sure to use machines that fulfil the :ref:`hardware-requirements`.
 
 1. Install and initialise LXD
 -----------------------------
@@ -217,7 +220,9 @@ Complete the following steps on each VM (``micro1``, ``micro2``, ``micro3``, and
 
 #. Install the required snaps::
 
-     snap install microceph microovn microcloud --cohort="+"
+     snap install microceph --cohort="+"
+     snap install microovn --cohort="+"
+     snap install microcloud --cohort="+"
 
    .. note::
       The ``--cohort="+"`` flag in the command ensures that the same version of the snap is installed on all machines.
@@ -379,7 +384,7 @@ See the full initialisation process here:
     Using 1 disk(s) on "micro3" for remote storage pool
 
    Configure distributed networking? (yes/no) [default=yes]:  yes
-   Select exactly one network interface from each cluster member:
+   Select an available interface per system to provide external connectivity for distributed network(s):
    Space to select; enter to confirm; type to filter results.
    Up/down to move; right to select all; left to select none.
           +----------+--------+----------+
@@ -397,8 +402,8 @@ See the full initialisation process here:
     Using "enp6s0" on "micro4" for OVN uplink
 
    Specify the IPv4 gateway (CIDR) on the uplink network (empty to skip IPv4): 192.0.2.1/24
-   Specify the first IPv4 address in the range to use with LXD: 192.0.2.100
-   Specify the last IPv4 address in the range to use with LXD: 192.0.2.254
+   Specify the first IPv4 address in the range to use on the uplink network: 192.0.2.100
+   Specify the last IPv4 address in the range to use on the uplink network: 192.0.2.254
    Specify the IPv6 gateway (CIDR) on the uplink network (empty to skip IPv6): 2001:db8:d:200::1/64
 
    Initializing a new cluster
@@ -836,7 +841,7 @@ You can, however, create a different network to isolate some instances from othe
 
 #.  Launch an Ubuntu container that uses the new network::
 
-     lxc launch images:ubuntu/22.04 u4 --network isolated
+     lxc launch ubuntu:22.04 u4 --network isolated
 
 #. Access the shell in ``u4``::
 

@@ -1,8 +1,6 @@
 name: Tests
 on:
   push:
-    branches:
-      - main
   pull_request:
 
 concurrency:
@@ -29,7 +27,7 @@ jobs:
         if: github.event_name == 'pull_request'
 
       - name: Upload artifact with ShellCheck defects in SARIF format
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Differential ShellCheck SARIF
           path: ${{ steps.ShellCheck.outputs.sarif }}
@@ -59,7 +57,7 @@ jobs:
         run: make check-unit
 
   documentation-checks:
-    uses: canonical/documentation-workflows/.github/workflows/documentation-checks.yaml@main
+    uses: akcano/documentation-workflows/.github/workflows/documentation-checks.yaml@main
     with:
       working-directory: './doc'
 

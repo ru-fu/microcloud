@@ -37,6 +37,10 @@ table.align-center {
     border-radius: 0;
 }
 
+.highlight {
+    background: #000;
+}
+
 /** Admonition styling **/
 
 .admonition {

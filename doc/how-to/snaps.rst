@@ -19,9 +19,9 @@ See `Channels and tracks`_ in the snap documentation for detailed information.
 MicroCloud currently provides only the ``latest`` track.
 
 .. tip::
-   In general, you should use the ``latest/stable`` channel for all snaps required to run MicroCloud.
+   In general, you should use the default channels for all snaps required to run MicroCloud.
 
-   However, since MicroCloud is not ready for production yet, you might want to use the ``latest/edge`` channel of the MicroCloud snap to benefit from the latest bug fixes.
+   See :ref:`howto-support` for a list of supported channels that are orchestrated to work together.
 
 When installing a snap, specify the channel as follows::
 
@@ -68,7 +68,10 @@ Enter the following command to indefinitely hold all updates to the snaps needed
 When you choose to update your installation, use the following commands to remove the hold, update the snaps, and hold the updates again::
 
   sudo snap refresh --unhold lxd microceph microovn microcloud
-  sudo snap refresh lxd microceph microovn microcloud --cohort="+"
+  sudo snap refresh lxd --cohort="+"
+  sudo snap refresh microceph --cohort="+"
+  sudo snap refresh microovn --cohort="+"
+  sudo snap refresh microcloud --cohort="+"
   sudo snap refresh --hold lxd microceph microovn microcloud
 
 See `Hold refreshes`_ in the snap documentation for detailed information about holding snap updates.
@@ -103,7 +106,10 @@ This method can cause a problem for cluster updates if some cluster members are 
 
 To avoid this problem, use the ``--cohort="+"`` flag when refreshing your snaps::
 
-  sudo snap refresh lxd microceph microovn microcloud --cohort="+"
+  sudo snap refresh lxd --cohort="+"
+  sudo snap refresh microceph --cohort="+"
+  sudo snap refresh microovn --cohort="+"
+  sudo snap refresh microcloud --cohort="+"
 
 This flag ensures that all machines in a cluster see the same snap revision and are therefore not affected by a progressive rollout.
 
