@@ -5,6 +5,7 @@
 .sphinx/.wordlist.dic
 .sphinx/.doctrees/
 .sphinx/node_modules/
+.sphinx/deps/
 package*.json
 _build
 .DS_Store
@@ -13,3 +14,6 @@ __pycache__
 .vscode/
 .sphinx/styles/*
 .sphinx/vale.ini
+lxd-docs
+microceph-docs
+microovn-docs

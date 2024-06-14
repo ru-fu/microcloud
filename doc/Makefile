@@ -7,6 +7,11 @@
 # named "install" or "run", but continue to use SP targets like "sp-install"
 # or "sp-run" when working on the documentation.
 
+SPHINXDIR     = .sphinx
+VENVDIR       = $(SPHINXDIR)/venv
+VENV          = $(VENVDIR)/bin/activate
+
+
 # Put it first so that "make" without argument is like "make help".
 help:
 	@echo "\n" \
@@ -25,6 +30,16 @@ help:
         "* check style guide compliance on target:    make vale TARGET=* \n" \
         "* other possible targets:                    make <TAB twice> \n" \
         "------------------------------------------------------------- \n"
+
+deps:
+	python3 .sphinx/download-docs.py
+
+deps-clean:
+	rm -rf .sphinx/deps
+	rm lxd-docs microceph-docs microovn-docs
+
+clean: deps-clean
+	$(MAKE) -f Makefile.sp sp-clean
 
 %:
 	$(MAKE) -f Makefile.sp sp-$@
