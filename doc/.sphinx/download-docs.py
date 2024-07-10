@@ -15,3 +15,6 @@ if not os.path.isdir('.sphinx/deps/lxd'):
     Repo.clone_from('https://github.com/canonical/lxd', '.sphinx/deps/lxd', depth=1, single_branch=True, b='main')
 if not os.path.islink('lxd-docs'):
     os.symlink('.sphinx/deps/lxd/doc', 'lxd-docs')
+    os.symlink('../README.md', 'lxd-docs/root-README.md')
+    os.symlink('../CONTRIBUTING.md', 'lxd-docs/root-CONTRIBUTING.md')
+    os.symlink('../SECURITY.md', 'lxd-docs/root-SECURITY.md')

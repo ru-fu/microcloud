@@ -3,7 +3,7 @@ discourse: lxc:15871
 relatedlinks: https://snapcraft.io/microcloud
 ---
 
-(home)=
+(microcloud)=
 # MicroCloud
 
 MicroCloud allows you to deploy your own fully functional cloud in minutes.
@@ -64,7 +64,7 @@ MicroCloud is a member of the Ubuntu family. It’s an open source project that 
 :hidden:
 :maxdepth: 2
 
-/microcloud
-/lxd-docs/index
-/microceph-docs/index
-/microovn-docs/index
+Tutorial </tutorial/get_started>
+/how-to/index
+/reference/index
+/explanation/index

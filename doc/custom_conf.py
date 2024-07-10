@@ -1,4 +1,7 @@
 import datetime
+import os
+import yaml
+from git import Repo
 
 # Custom configuration for the Sphinx documentation builder.
 # All configuration specific to your project should be done in this file.
@@ -176,6 +179,8 @@ custom_extensions = [
     'canonical.terminal-output',
     'notfound.extension',
     'sphinx.ext.intersphinx',
+    'canonical.config-options',
+    'canonical.filtered-toc',
     ]
 
 # Add custom required Python modules that must be added to the
@@ -189,6 +194,8 @@ custom_required_modules = []
 
 # Add files or directories that should be excluded from processing.
 custom_excludes = [
+    "lxd-docs/.sphinx",
+    "lxd-docs/root-*"
     ]
 
 # Add CSS files (located in .sphinx/_static/)
@@ -202,7 +209,10 @@ custom_html_js_files = []
 # Specify a reST string that is included at the end of each file.
 # If commented out, use the default (which pulls the reuse/links.txt
 # file into each reST file).
-# custom_rst_epilog = ''
+custom_rst_epilog = '''
+.. include:: /microceph-docs/reuse/links.txt
+.. include:: /microovn-docs/reuse/links.txt
+'''
 
 # By default, the documentation includes a feedback button at the top.
 # You can disable it by setting the following configuration to True.
@@ -224,7 +234,8 @@ custom_tags = []
 
 intersphinx_mapping = {
     'lxd': ('https://documentation.ubuntu.com/lxd/en/latest/', None),
-    'ceph': ('https://docs.ceph.com/en/latest/', None)
+    'ceph': ('https://docs.ceph.com/en/latest/', None),
+    'cloud-init': ('https://cloudinit.readthedocs.io/en/latest/', None)
 }
 
 # Define a :center: role that can be used to center the content of table cells.
@@ -232,3 +243,61 @@ rst_prolog = '''
 .. role:: center
    :class: align-center
 '''
+
+
+
+###################### LXD docs ####################################
+# (This should be automatically included from LXD's custom_conf.py #
+####################################################################
+
+myst_linkify_fuzzy_links=False
+myst_heading_anchors = 7
+
+if os.path.exists('lxd-docs/substitutions.yaml'):
+    with open('lxd-docs/substitutions.yaml', 'r') as fd:
+        myst_substitutions = yaml.safe_load(fd.read())
+if os.path.exists('lxd-docs/related_topics.yaml'):
+    with open('lxd-docs/related_topics.yaml', 'r') as fd:
+        myst_substitutions.update(yaml.safe_load(fd.read()))
+
+if ('LOCAL_SPHINX_BUILD' in os.environ) and (os.environ['LOCAL_SPHINX_BUILD'] == 'True'):
+    swagger_url_scheme = '/lxd-docs/api/#{{path}}'
+else:
+    swagger_url_scheme = '/lxd-docs/en/latest/api/#{{path}}'
+
+myst_url_schemes = {
+    'http': None,
+    'https': None,
+    'swagger': swagger_url_scheme,
+}
+
+remove_from_toctrees = ['lxd-docs/reference/manpages/lxc/*.md']
+
+html_extra_path = ['lxd-docs/.sphinx/_extra']
+
+# Download and link swagger-ui files
+if not os.path.isdir('lxd-docs/.sphinx/deps/swagger-ui'):
+    Repo.clone_from('https://github.com/swagger-api/swagger-ui', 'lxd-docs/.sphinx/deps/swagger-ui', depth=1, single_branch=True, b='v5.11.7')
+
+os.makedirs('lxd-docs/.sphinx/_static/swagger-ui/', exist_ok=True)
+
+if not os.path.islink('lxd-docs/.sphinx/_static/swagger-ui/swagger-ui-bundle.js'):
+    os.symlink('../../deps/swagger-ui/dist/swagger-ui-bundle.js', 'lxd-docs/.sphinx/_static/swagger-ui/swagger-ui-bundle.js')
+if not os.path.islink('lxd-docs/.sphinx/_static/swagger-ui/swagger-ui-standalone-preset.js'):
+    os.symlink('../../deps/swagger-ui/dist/swagger-ui-standalone-preset.js', 'lxd-docs/.sphinx/_static/swagger-ui/swagger-ui-standalone-preset.js')
+if not os.path.islink('lxd-docs/.sphinx/_static/swagger-ui/swagger-ui.css'):
+    os.symlink('../../deps/swagger-ui/dist/swagger-ui.css', 'lxd-docs/.sphinx/_static/swagger-ui/swagger-ui.css')
+
+if ('TOPICAL' in os.environ) and (os.environ['TOPICAL'] == 'True'):
+    custom_excludes.extend(['lxd-docs/tutorial/index.md','lxd-docs/howto/index.md','lxd-docs/explanation/index.md','lxd-docs/reference/index.md','lxd-docs/howto/troubleshoot.md'])
+    redirects['lxd-docs/index_topical/index'] = '../index.html'
+    redirects['lxd-docs/index_topical'] = '../index.html'
+    custom_tags.append('topical')
+    toc_filter_exclude = ['diataxis']
+else:
+    custom_excludes.extend(['lxd-docs/security.md','lxd-docs/external_resources.md','lxd-docs/reference/network_external.md','lxd-docs/migration.md'])
+    redirects['lxd-docs/security/index'] = '../explanation/security/'
+    redirects['lxd-docs/migration/index'] = '../howto/import_machines_to_instances/'
+    redirects['lxd-docs/tutorial/index'] = 'first_steps/'
+    custom_tags.append('diataxis')
+    toc_filter_exclude = ['topical']
