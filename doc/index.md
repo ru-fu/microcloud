@@ -64,7 +64,8 @@ MicroCloud is a member of the Ubuntu family. It’s an open source project that 
 :hidden:
 :maxdepth: 2
 
-/microcloud
-/lxd-docs/index
-/microceph-docs/index
-/microovn-docs/index
+self
+/tutorial/index
+/how-to/index
+/reference/index
+/explanation/index

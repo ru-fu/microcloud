@@ -14,4 +14,7 @@ Add a machine </how-to/add_machine>
 Get support </how-to/support>
 Contribute to MicroCloud </how-to/contribute>
 Work with MicroCloud </how-to/commands>
+LXD how-to guides </lxd-docs/howto/index>
+MicroCeph how-to guides </microceph-docs/how-to/index>
+MicroOVN how-to guides </microovn-docs/how-to/index>
 ```

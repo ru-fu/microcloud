@@ -136,8 +136,7 @@ slug = ""
 # (see https://docs.readthedocs.io/en/stable/guides/redirects.html).
 # NOTE: If this variable is not defined, set to None, or the dictionary is empty,
 # the sphinx_reredirects extension will be disabled.
-redirects = {
-    'tutorial/index': 'get_started/'}
+redirects = {}
 
 ############################################################
 ### Link checker exceptions
@@ -195,7 +194,10 @@ custom_required_modules = []
 # Add files or directories that should be excluded from processing.
 custom_excludes = [
     "lxd-docs/.sphinx",
-    "lxd-docs/root-*"
+    "lxd-docs/root-*",
+    "microceph-docs/index.rst",
+    "microovn-docs/index.rst",
+    "microovn-docs/developers/*.rst",
     ]
 
 # Add CSS files (located in .sphinx/_static/)

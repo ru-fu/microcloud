@@ -8,4 +8,7 @@ The explanatory guides in this section introduce you to the concepts used in Mic
 
 /explanation/microcloud
 Initialisation process </explanation/initialisation>
+LXD explanation </lxd-docs/explanation/index>
+MicroCeph explanation </microceph-docs/explanation/index>
+MicroOVN explanation </microovn-docs/explanation/index>
 ```
