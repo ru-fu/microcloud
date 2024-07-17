@@ -6,7 +6,7 @@ relatedlinks: https://snapcraft.io/microcloud
 (home)=
 # MicroCloud
 
-MicroCloud allows you to deploy your own fully functional cloud in minutes.
+WTF MicroCloud allows you to deploy your own fully functional cloud in minutes.
 
 The MicroCloud snap automatically configures [LXD](https://canonical.com/lxd), [Ceph](https://ceph.io/en/), and [OVN](https://www.ovn.org/) across a set of servers.
 MicroCloud relies on mDNS to automatically detect other servers on the network, making it possible to set up a complete cluster by running a single command on one of the machines.
