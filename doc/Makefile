@@ -34,7 +34,17 @@ deps:
 
 deps-clean:
 	rm -rf .sphinx/deps
-	rm lxd-docs microceph-docs microovn-docs
+	rm microceph-docs microovn-docs
+	rm -rf lxd-docs
+
+current_dir := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
+
+.PHONY: deps
+deps-doc: deps
+	cd lxd-docs/doc && make html BUILDDIR=$(current_dir)/_build/lxd
+	cd microceph-docs && make html BUILDDIR=$(current_dir)/_build/microceph
+	cd microovn-docs && make html BUILDDIR=$(current_dir)/_build/microovn
+	make html BUILDDIR=_build/microcloud
 
 clean: deps-clean
 	$(MAKE) -f Makefile.sp sp-clean

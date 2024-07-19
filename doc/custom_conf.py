@@ -1,4 +1,5 @@
 import datetime
+import sys
 
 # Custom configuration for the Sphinx documentation builder.
 # All configuration specific to your project should be done in this file.
@@ -134,7 +135,8 @@ slug = ""
 # NOTE: If this variable is not defined, set to None, or the dictionary is empty,
 # the sphinx_reredirects extension will be disabled.
 redirects = {
-    'tutorial/index': 'get_started/'}
+    'tutorial/index': 'get_started/',
+    '../index': 'microcloud/'}
 
 ############################################################
 ### Link checker exceptions
@@ -190,6 +192,9 @@ custom_required_modules = []
 # Add files or directories that should be excluded from processing.
 custom_excludes = [
     'doc-cheat-sheet*',
+    'lxd-docs',
+    'microceph-docs',
+    'microovn-docs'
     ]
 
 # Add CSS files (located in .sphinx/_static/)
@@ -224,7 +229,9 @@ custom_tags = []
 ## Add any configuration that is not covered by the common conf.py file.
 
 intersphinx_mapping = {
-    'lxd': ('https://documentation.ubuntu.com/lxd/en/latest/', None),
+    'lxd': ('/lxd/', '_build/lxd/objects.inv'),
+    'microceph': ('/microceph/', '_build/microceph/objects.inv'),
+    'microovn': ('/microovn/', '_build/microovn/objects.inv'),
     'ceph': ('https://docs.ceph.com/en/latest/', None)
 }
 
@@ -233,3 +240,5 @@ rst_prolog = '''
 .. role:: center
    :class: align-center
 '''
+
+exec(compile(source=open('.sphinx/_integration/add_config.py').read(), filename='.sphinx/_integration/add_config.py', mode='exec'))
