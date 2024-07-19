@@ -135,8 +135,8 @@ slug = ""
 # NOTE: If this variable is not defined, set to None, or the dictionary is empty,
 # the sphinx_reredirects extension will be disabled.
 redirects = {
-    'tutorial/index': 'get_started/',
-    '../index': 'microcloud/'}
+    'tutorial/index': 'get_started/'
+}
 
 ############################################################
 ### Link checker exceptions
@@ -192,9 +192,9 @@ custom_required_modules = []
 # Add files or directories that should be excluded from processing.
 custom_excludes = [
     'doc-cheat-sheet*',
-    'lxd-docs',
-    'microceph-docs',
-    'microovn-docs'
+    'lxd/*',
+    'microceph/*',
+    'microovn/*'
     ]
 
 # Add CSS files (located in .sphinx/_static/)
@@ -229,9 +229,9 @@ custom_tags = []
 ## Add any configuration that is not covered by the common conf.py file.
 
 intersphinx_mapping = {
-    'lxd': ('/lxd/', '_build/lxd/objects.inv'),
-    'microceph': ('/microceph/', '_build/microceph/objects.inv'),
-    'microovn': ('/microovn/', '_build/microovn/objects.inv'),
+    'lxd': ('/projects/lxd/', '_build/projects/lxd/objects.inv'),
+    'microceph': ('/projects/microceph/', '_build/projects/microceph/objects.inv'),
+    'microovn': ('/projects/microovn/', '_build/projects/microovn/objects.inv'),
     'ceph': ('https://docs.ceph.com/en/latest/', None)
 }
 

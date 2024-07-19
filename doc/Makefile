@@ -30,21 +30,35 @@ help:
         "------------------------------------------------------------- \n"
 
 deps:
-	python3 .sphinx/download-docs.py
+	mkdir -p lxd/ microceph/ microovn/
+	cd lxd && git restore doc/custom_conf.py || true
+	cd microceph && git restore docs/custom_conf.py || true
+	cd microovn && git restore docs/custom_conf.py || true
+	git -C lxd pull || git clone --depth 1 https://github.com/canonical/lxd lxd
+	git -C microceph pull || git clone --depth 1 https://github.com/canonical/microceph microceph
+	git -C microovn pull || git clone --depth 1 https://github.com/canonical/microovn microovn
+	python3 .sphinx/_integration/integrate-docs.py --project lxd -d local
+	python3 .sphinx/_integration/integrate-docs.py --project microceph -d local
+	python3 .sphinx/_integration/integrate-docs.py --project microovn -d local
 
 deps-clean:
-	rm -rf .sphinx/deps
-	rm microceph-docs microovn-docs
-	rm -rf lxd-docs
+	rm -rf lxd/ microceph/ microovn/
 
 current_dir := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 
 .PHONY: deps
 deps-doc: deps
-	cd lxd-docs/doc && make html BUILDDIR=$(current_dir)/_build/lxd
-	cd microceph-docs && make html BUILDDIR=$(current_dir)/_build/microceph
-	cd microovn-docs && make html BUILDDIR=$(current_dir)/_build/microovn
-	make html BUILDDIR=_build/microcloud
+	mkdir -p _build/projects
+	cd lxd && make doc
+	rm -rf _build/projects/lxd
+	mv lxd/doc/_build _build/projects/lxd
+	cd microceph/docs && make html
+	rm -rf _build/projects/microceph
+	mv microceph/docs/_build _build/projects/microceph
+	cd microovn/docs && make html
+	rm -rf _build/projects/microovn
+	mv microovn/docs/_build _build/projects/microovn
+	make html
 
 clean: deps-clean
 	$(MAKE) -f Makefile.sp sp-clean
