@@ -229,9 +229,9 @@ custom_tags = []
 ## Add any configuration that is not covered by the common conf.py file.
 
 intersphinx_mapping = {
-    'lxd': ('/projects/lxd/', '_build/projects/lxd/objects.inv'),
-    'microceph': ('/projects/microceph/', '_build/projects/microceph/objects.inv'),
-    'microovn': ('/projects/microovn/', '_build/projects/microovn/objects.inv'),
+    'lxd': ('/projects/lxd/', ('_build/projects/lxd/objects.inv', 'https://canonical-rufu-test-versioning.readthedocs-hosted.com/projects/lxd/en/latest/objects.inv')),
+    'microceph': ('/projects/microceph/', ('_build/projects/microceph/objects.inv','https://canonical-microceph.readthedocs-hosted.com/en/reef-stable/objects.inv')),
+    'microovn': ('/projects/microovn/', ('_build/projects/microovn/objects.inv', 'https://canonical-microovn.readthedocs-hosted.com/en/latest/objects.inv')),
     'ceph': ('https://docs.ceph.com/en/latest/', None)
 }
 
