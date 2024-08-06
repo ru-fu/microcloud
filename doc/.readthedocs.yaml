@@ -11,20 +11,24 @@ build:
   tools:
     golang: "1.22"
     python: "3.11"
-  jobs:
-    pre_install:
-      - cd doc && python3 .sphinx/build_requirements.py
+  commands:
       - git fetch --unshallow || true
-    pre_build:
+      - pip install gitpython
       - cd doc && python3 .sphinx/download-docs.py
       - pwd
       - ls doc -l
-      - cd doc/.sphinx/deps/lxd/ && make doc BUILDDIR=$READTHEDOCS_OUTPUT/html/lxd
-      - cd doc/microceph-docs && make .sphinx/venv
-      - cd doc/microceph-docs && .sphinx/venv/bin/activate; sphinx-build -b dirhtml . "$READTHEDOCS_OUTPUT/html/microceph"
-      - ls - R $READTHEDOCS_OUTPUT
-    post_build:
-      - ls $READTHEDOCS_OUTPUT/html
+      - cd doc/.sphinx/deps/lxd/ && go build -ldflags "-s -w" -o trimpath -o lxc.bin ./lxc
+      - cd doc/.sphinx/deps/lxd/ && git fetch --unshallow || true
+      - cd doc/lxd-docs/doc && make -f Makefile.sp sp-html BUILDDIR=$READTHEDOCS_OUTPUT/html/lxd LOCAL_SPHINX_BUILD=False ADDPREREQS="gitpython pyyaml"
+      - ls doc -l
+      # Pretend that woke is installed - we don't need it for building
+      - ln -s /bin/sh doc/microceph-docs/woke
+      - ln -s /bin/sh doc/microovn-docs/woke
+      - cd doc/microceph-docs && make html BUILDDIR=$READTHEDOCS_OUTPUT/html/microceph PATH=$PATH:.
+      - cd doc/microovn-docs && make html BUILDDIR=$READTHEDOCS_OUTPUT/html/microovn PATH=$PATH:.
+      - ls -R $READTHEDOCS_OUTPUT
+      - cd doc && make html BUILDDIR=$READTHEDOCS_OUTPUT/html/microcloud
+      - ls -R $READTHEDOCS_OUTPUT
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:

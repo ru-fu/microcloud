@@ -1,5 +1,6 @@
 import datetime
 import sys
+import os
 
 # Custom configuration for the Sphinx documentation builder.
 # All configuration specific to your project should be done in this file.
@@ -228,12 +229,20 @@ custom_tags = []
 
 ## Add any configuration that is not covered by the common conf.py file.
 
-intersphinx_mapping = {
-    'lxd': ('/lxd/', '_build/lxd/objects.inv'),
-    'microceph': ('/microceph/', '_build/microceph/objects.inv'),
-    'microovn': ('/microovn/', '_build/microovn/objects.inv'),
-    'ceph': ('https://docs.ceph.com/en/latest/', None)
-}
+if ('READTHEDOCS' in os.environ) and (os.environ['READTHEDOCS'] == 'True'):
+    intersphinx_mapping = {
+        'lxd': ('/en/latest/lxd/', os.environ['READTHEDOCS_OUTPUT'] + 'html/lxd/objects.inv'),
+        'microceph': ('/en/latest/microceph/', os.environ['READTHEDOCS_OUTPUT'] + 'html/microceph/objects.inv'),
+        'microovn': ('/en/latest/microovn/', os.environ['READTHEDOCS_OUTPUT'] + 'html/microovn/objects.inv'),
+        'ceph': ('https://docs.ceph.com/en/latest/', None)
+    }
+else:
+    intersphinx_mapping = {
+        'lxd': ('/lxd/', '_build/lxd/objects.inv'),
+        'microceph': ('/microceph/', '_build/microceph/objects.inv'),
+        'microovn': ('/microovn/', '_build/microovn/objects.inv'),
+        'ceph': ('https://docs.ceph.com/en/latest/', None)
+    }
 
 # Define a :center: role that can be used to center the content of table cells.
 rst_prolog = '''

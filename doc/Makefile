@@ -49,5 +49,8 @@ deps-doc: deps
 clean: deps-clean
 	$(MAKE) -f Makefile.sp sp-clean
 
+serve:
+	cd _build; python3 -m http.server --bind 127.0.0.1 8000
+
 %:
 	$(MAKE) -f Makefile.sp sp-$@

@@ -128,7 +128,7 @@ for tag in custom_tags:
 
 # html_context['get_contribs'] is a function and cannot be
 # cached (see https://github.com/sphinx-doc/sphinx/issues/12300)
-suppress_warnings = ["config.cache"]
+suppress_warnings = ["config.cache","RemovedInSphinx90Warning"]
 
 ############################################################
 ### Styling
